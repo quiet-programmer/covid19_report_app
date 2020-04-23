@@ -28,7 +28,7 @@ class _HomeState extends State<Home> {
         ],
       ),
       body: SingleChildScrollView(
-        child: Container(
+        child: Padding(
           padding: EdgeInsets.symmetric(horizontal: 16.0),
           child: Column(
             children: <Widget>[
@@ -40,43 +40,40 @@ class _HomeState extends State<Home> {
                 future: _covidAPI.fetchReport(),
                 builder: (_, snapshot) {
                   if (snapshot.hasData) {
-                    return Container(
-                      height: MediaQuery.of(context).size.height,
-                      child: ListView.builder(
-                        itemCount: snapshot.data.length,
-                        itemBuilder: (_, index) {
-                          return Card(
-                            elevation: 5.0,
-                            child: Column(
-                              children: <Widget>[
-                                ListTile(
-                                  leading: Text(
-                                    snapshot.data[index].countryCode,
-                                    style: TextStyle(fontSize: 20.0),
-                                  ),
-                                  title: Text(
-                                    snapshot.data[index].country,
-                                    style: TextStyle(
-                                        fontSize: 18.0,
-                                        fontWeight: FontWeight.bold,
-                                        fontFamily: 'serif'),
-                                  ),
-                                  subtitle: Text(
-                                    "Country Population: ${snapshot.data[index].countryPopulation}",
-                                    style: TextStyle(
-                                      color: Colors.grey,
-                                      fontFamily: 'serif',
-                                    ),
+                    return ListView.builder(
+                      shrinkWrap: true,
+                      primary: false,
+                      physics: NeverScrollableScrollPhysics(),
+                      itemCount: snapshot.data.length,
+                      itemBuilder: (_, index) {
+                        return Card(
+                          elevation: 5.0,
+                          child: Column(
+                            children: <Widget>[
+                              ListTile(
+                                leading: Text(
+                                  snapshot.data[index].countryCode,
+                                  style: TextStyle(fontSize: 20.0),
+                                ),
+                                title: Text(
+                                  snapshot.data[index].country,
+                                  style: TextStyle(
+                                      fontSize: 18.0,
+                                      fontWeight: FontWeight.bold,
+                                      fontFamily: 'serif'),
+                                ),
+                                subtitle: Text(
+                                  "Country Population: ${snapshot.data[index].countryPopulation}",
+                                  style: TextStyle(
+                                    color: Colors.grey,
+                                    fontFamily: 'serif',
                                   ),
                                 ),
-                                SizedBox(
-                                  height: 5.0,
-                                )
-                              ],
-                            ),
-                          );
-                        },
-                      ),
+                              ),
+                            ],
+                          ),
+                        );
+                      },
                     );
                   } else if (snapshot.hasError) {
                     return Container(
